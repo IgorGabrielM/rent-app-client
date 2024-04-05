@@ -1,0 +1,13 @@
+<div *ngIf="getHeaderIsDisabled()" class="w-full h-16 bg-[color:#748cab] flex justify-center items-center">
+    <div class="w-10/12 flex justify-between items-center">
+        <div>
+            <h2 class="font-bold text-2xl text-white">Rent app</h2>
+        </div>
+
+        <div>
+            <div class="w-fit h-fit bg-gray-300 py-1 px-2 rounded-full" (click)="logout()">
+                <i class="ph ph-sign-out text-2xl"></i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div id="print-contract">
+    <main *ngIf="contract">
+        <div class="text-center mt-3">
+            <div>
+                <strong class="text-xl">Termos do contrato</strong>
+            </div>
+
+            <div class="m-5">
+                <p>{{ contract.termsContract }}</p>
+            </div>
+            <div *ngIf="contract?.assets?.length > 0">
+                <p>Os termos acima se referem à locação dos seguintes equipamentos:</p>
+                <table class="my-5">
+                    <thead class="bg-[color:#f2f2f2]">
+                        <tr class="bg-[color:#f2f2f2]">
+                            <th class="border border-r-2 border-b-2 border-gray-400">Nome</th>
+                            <th class="border border-r-2 border-b-2 border-gray-400">Quant.</th>
+                            <th class="border border-r-2 border-b-2 border-gray-400">Valor Unitário</th>
+                            <th class="border border-l-2 border-b-2 border-gray-400">Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let asset of contract.assets;let i = index"
+                            class="assets border border-[color:#ddd] even:bg-[color:#f2f2f2]">
+                            <td class="border border-r-2 border-[color:#ddd]">{{ asset.name }}</td>
+                            <td class="border border-r-2 border-[color:#ddd]">{{ asset.quantity }}</td>
+                            <td class="border border-r-2 border-[color:#ddd]">{{ "R$" + asset.assetCategory.value +
+                                ",00" }}
+                            </td>
+                            <td class="border border-l-2 border-[color:#ddd]">{{ "R$" +
+                                totalValueCalculator(asset.quantity,
+                                asset.assetCategory.value) + ",00"}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-bold border-t-2 border-[color:#ddd]">
+                            <td colspan="3">Valor total do contrato</td>
+                            <td>R$ {{ getTotalValue() }},00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="w-full mx-auto flex justify-end">
+            <div *ngIf="!contract.image" class="w-fit h-fit animate-spin">
+                <i class="ph ph-spinner-gap animate-spin text-2xl"></i>
+            </div>
+            <div class="w-60 flex flex-col justify-center">
+                <img *ngIf="contract.image" [src]="contract.image" class="w-fit h-40 bg-white">
+                <p class="mt-2 border-t-2 border-stone-800 text-center">{{ contract.contactName }}</p>
+            </div>
+        </div>
+    </main>
+</div>

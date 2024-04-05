@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "rent-app-d693f": {
+      "hosting": {
+        "rent-app-client": [
+          "rent-app-d693f"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "rent-app-d693f"
+  }
+}

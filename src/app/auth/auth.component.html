@@ -1,0 +1,24 @@
+<div class="w-full h-screen flex justify-between">
+    <div class="w-2/4 h-full">
+        <div class="w-full h-full flex justify-center items-center">
+            <ng-form #form="ngForm" class="w-10/12">
+                <div class="mt-3 flex flex-col gap-2">
+                    <input [(ngModel)]="userLogin.email" class="p-2 rounded-lg border" placeholder="Email"
+                        labelPlacement="floating" name="email" data-testid="email" required>
+                    <input [(ngModel)]="userLogin.password" class="p-2 rounded-lg border" placeholder="Senha"
+                        name="password" data-testid="password" required type="password">
+                </div>
+
+                <div class="mt-5 text-white">
+                    <button [disabled]="!form.valid" (click)="form.valid ? onSubmit() : null"
+                        class="bg-[color:#49586b] w-full h-10 rounded-lg text-lg font-bold shadow-md"
+                        data-testid="submit">Entrar</button>
+                    <span class="mx-5 text-sm/[10px] text-gray-500">Não possui conta? Crie uma <a
+                            data-testid="link-to-signup" class="text-[color:#49586b] font-bold" href="/sign-up">clicando
+                            aqui</a></span>
+                </div>
+            </ng-form>
+        </div>
+    </div>
+    <div class="w-2/4 h-full bg-[color:#49586b]"></div>
+</div>
