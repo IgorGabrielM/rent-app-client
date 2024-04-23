@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AssetCategoryModel } from 'src/@core/models/assetCategory.model';
 import { ContactModel } from 'src/@core/models/contact.model';
@@ -7,12 +8,10 @@ import { AssetService } from 'src/@core/services/asset.service';
 import { AssetCategoryService } from 'src/@core/services/assetCategory.service';
 import { ContactService } from 'src/@core/services/contact.service';
 import { ContractService } from 'src/@core/services/contract.service';
-
 export class AssetCategoryForGraphs extends AssetCategoryModel {
   quantity?: number
   assetsAllByCategory?: number
 }
-
 export class ContactsForGraphs extends ContactModel {
   quantity?: number
 }
@@ -27,19 +26,23 @@ export class DashboardComponent implements OnInit {
 
   chartGraphicAssetsByCategory: any;
   chartGraphicContractsByContacts: any;
+  chartGraphicAssetsByCategoryPie: any;
 
   constructor(
     private assetCategoryService: AssetCategoryService,
     private contractService: ContractService,
     private contactService: ContactService,
-    private assetService: AssetService
+    private assetService: AssetService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.chartGraphicAssetsByCategory = {};
-
     this.loadDataForCategoryAsset()
     this.loadContractsForContactsAsset()
+
+    /*     setTimeout(() => {
+          this.generatePDF();
+        }, 2000) */
   }
 
   loadDataForCategoryAsset() {
@@ -54,10 +57,8 @@ export class DashboardComponent implements OnInit {
         }
       })) as { description: string, id: string, quantity: number, uid: string, value: number, assetsAllByCategory: number }[]
 
-      //adicionar uma linha no grafico mostrando a quantidade total
-      console.log(quantities)
-
       this.loadGraphicAssetCategoryByAsset(quantities);
+      this.loadChartGraphicAssetsByCategoryPie(quantities)
     });
   }
 
@@ -74,17 +75,50 @@ export class DashboardComponent implements OnInit {
   loadGraphicAssetCategoryByAsset(data: AssetCategoryForGraphs[]): void {
     this.chartGraphicAssetsByCategory = {};
     this.chartGraphicAssetsByCategory = {
-      xAxis: {
-        data: data.map((category) => category.description),
-        type: 'category',
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        }
       },
-      yAxis: {
-        type: 'value'
+      toolbox: {
+        feature: {
+          magicType: { show: true, type: ['line', 'bar'] },
+          restore: { show: true },
+          saveAsImage: { show: true }
+        }
       },
+      legend: {
+        data: ['Alugados', 'Total']
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: data.map((category) => category.description),
+          axisPointer: {
+            type: 'shadow'
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          name: 'Total',
+        },
+      ],
       series: [
         {
+          name: 'Alugados',
+          type: 'bar',
           data: data.map((category) => category.quantity),
-          type: 'bar'
+        },
+        {
+          name: 'Total',
+          type: 'line',
+          data: data.map((category) => category.assetsAllByCategory)
         }
       ]
     };
@@ -120,5 +154,58 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
+  }
+
+  loadChartGraphicAssetsByCategoryPie(data: AssetCategoryForGraphs[]) {
+    this.chartGraphicAssetsByCategoryPie = {}
+    this.chartGraphicAssetsByCategoryPie = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 40,
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: data.reverse().map((asset) => {
+            return {
+              value: asset.quantity,
+              name: asset.description
+            }
+          })
+        }
+      ]
+    };
+  }
+
+  generatePDF() {
+    window.print();
+    this.router.navigate(['../home']).then(() => {
+      window.location.reload()
+    })
   }
 }

@@ -8,7 +8,6 @@ import { ContractService } from 'src/@core/services/contract.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  deleteIsOpen = false;
 
   constracts: ContractModel[] = []
   results: ContractModel[] = []
@@ -26,7 +25,6 @@ export class HomeComponent implements OnInit {
     this.contractService.list().subscribe((contracts) => {
       this.constracts = contracts as ContractModel[]
       this.results = contracts as ContractModel[]
-      console.log(contracts)
     })
   }
 
@@ -37,14 +35,5 @@ export class HomeComponent implements OnInit {
     } else {
       this.results = this.constracts
     }
-  }
-
-  deleteOpen(id: string) {
-    this.deleteIsOpen = true
-    this.contractToDeleteId = id
-  }
-
-  delete() {
-    this.contractService.delete(this.contractToDeleteId).then(() => this.deleteIsOpen = !this.deleteIsOpen)
   }
 }
