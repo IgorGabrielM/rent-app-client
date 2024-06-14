@@ -30,6 +30,7 @@ export class ContractInformationComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const id = params['id'];
       this.contractService.find(id).then((contract) => {
+        console.log(contract)
         this.contract = contract as ContractModel
       })
     });
@@ -38,8 +39,8 @@ export class ContractInformationComponent implements OnInit {
   getTotalValue(): number {
     let totalValue: number = 0;
 
-    this.contract?.assets.forEach((asset) => {
-      totalValue += Number(asset.assetCategory.value) * asset.quantity;
+    this.contract?.assetCategories.forEach((asset) => {
+      totalValue += Number(asset.value) * asset.quantity;
     });
 
     return totalValue;

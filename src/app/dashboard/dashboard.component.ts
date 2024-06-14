@@ -9,7 +9,6 @@ import { AssetCategoryService } from 'src/@core/services/assetCategory.service';
 import { ContactService } from 'src/@core/services/contact.service';
 import { ContractService } from 'src/@core/services/contract.service';
 export class AssetCategoryForGraphs extends AssetCategoryModel {
-  quantity?: number
   assetsAllByCategory?: number
 }
 export class ContactsForGraphs extends ContactModel {
@@ -66,7 +65,7 @@ export class DashboardComponent implements OnInit {
     const contracts: ContractModel[] = await firstValueFrom(this.contractService.list())
     let quantityAssetsByCategoryInUsed: number = 0
     contracts.forEach((contract) => {
-      const asset = contract.assets.find((asset) => asset.assetCategory.id === assetCategoryId)
+      const asset = contract.assetCategories.find((asset) => asset.id === assetCategoryId)
       quantityAssetsByCategoryInUsed += asset ? asset.quantity : 0
     })
     return quantityAssetsByCategoryInUsed

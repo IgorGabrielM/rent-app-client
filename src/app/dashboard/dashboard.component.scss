@@ -2,8 +2,8 @@
     #print-dashboard {
         width: 100%;
         clear: both !important;
-        -webkit-print-color-adjust: exact;
-        color-adjust: exact;
+        /*         -webkit-print-color-adjust: exact;
+        color-adjust: exact; */
         border-radius: 1px;
         page-break-inside: auto !important;
     }

@@ -8,7 +8,7 @@
             <div class="m-5">
                 <p>{{ contract.termsContract }}</p>
             </div>
-            <div *ngIf="contract?.assets?.length > 0">
+            <div *ngIf="contract?.assetCategories?.length > 0">
                 <p>Os termos acima se referem à locação dos seguintes equipamentos:</p>
                 <table class="my-5">
                     <thead class="bg-[color:#f2f2f2]">
@@ -20,16 +20,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let asset of contract.assets;let i = index"
+                        <tr *ngFor="let asset of contract.assetCategories;let i = index"
                             class="assets border border-[color:#ddd] even:bg-[color:#f2f2f2]">
-                            <td class="border border-r-2 border-[color:#ddd]">{{ asset.name }}</td>
+                            <td class="border border-r-2 border-[color:#ddd]">{{ asset.description }}</td>
                             <td class="border border-r-2 border-[color:#ddd]">{{ asset.quantity }}</td>
-                            <td class="border border-r-2 border-[color:#ddd]">{{ "R$" + asset.assetCategory.value +
+                            <td class="border border-r-2 border-[color:#ddd]">{{ "R$" + asset.value +
                                 ",00" }}
                             </td>
                             <td class="border border-l-2 border-[color:#ddd]">{{ "R$" +
-                                totalValueCalculator(asset.quantity,
-                                asset.assetCategory.value) + ",00"}}</td>
+                                totalValueCalculator(asset.quantity, asset.value) + ",00"}}</td>
                         </tr>
                     </tbody>
                     <tfoot>

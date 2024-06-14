@@ -1,4 +1,5 @@
 import { AssetModel } from "./asset.model";
+import { AssetCategoryModel } from "./assetCategory.model";
 import { DefaultModel } from "./default.model";
 
 export class ContractModel extends DefaultModel {
@@ -16,6 +17,6 @@ export class ContractModel extends DefaultModel {
   contactName: string;
   termsContract: string;
   titleContract: string;
-  assets?: AssetModel[];
+  assetCategories?: AssetCategoryModel[];
   signaturePath: string;
 }
