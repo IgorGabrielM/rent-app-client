@@ -52,8 +52,8 @@ export class ContractInformationComponent implements OnInit {
 
   generatePDF() {
     window.print();
-    this.router.navigate(['../home']).then(() => {
-      window.location.reload()
-    })
+    /*     this.router.navigate(['../home']).then(() => {
+          window.location.reload()
+        }) */
   }
 }
