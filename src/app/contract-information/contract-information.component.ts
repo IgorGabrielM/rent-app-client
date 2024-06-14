@@ -23,7 +23,7 @@ export class ContractInformationComponent implements OnInit {
 
     setTimeout(() => {
       this.generatePDF();
-    }, 500)
+    }, 2000)
   }
 
   loadContract() {
